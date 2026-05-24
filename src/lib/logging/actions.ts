@@ -2,6 +2,7 @@ export const AdminLogAction = {
   FormCreated: "form.created",
   FormUpdated: "form.updated",
   FormPublished: "form.published",
+  FormUnpublished: "form.unpublished",
   ExportCsv: "export.csv",
   ExportXlsx: "export.xlsx",
   AdminAdded: "admin.added",
@@ -13,4 +14,3 @@ export const AdminLogAction = {
 
 export type AdminLogActionType =
   (typeof AdminLogAction)[keyof typeof AdminLogAction];
-

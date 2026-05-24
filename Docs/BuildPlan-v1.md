@@ -107,7 +107,7 @@ Added `/admin/login`, `/admin/forgot-password`, and `/admin/reset-password` flow
 Protected dashboard routes via `requireAdmin()` (session + `admins` table check) and added `/admin/unauthorized`.
 #### Step D.3 — Dashboard layout/navigation (Forms, Submissions, Admins, Logs)  [Implemented] [Tested]
 Added a shared dashboard layout with navigation and logout action under `src/app/admin/(dashboard)`.
-#### Step D.4 — KPI widgets load-once + manual Refresh (no auto-refresh)  [Implemented] [Not Tested]
+#### Step D.4 — KPI widgets load-once + manual Refresh (no auto-refresh)  [Implemented] [Tested]
 Dashboard KPIs render server-side on page load and include a manual Refresh button (no polling/auto-refresh).
 
 ### Step E — Form management (admin)  [Implemented] [Not Tested]
@@ -116,10 +116,10 @@ Implemented form creation, editing, theming, and active toggling in the admin da
 Added `/admin/forms` create form UI and server action that normalizes slug and inserts into `forms`.
 #### Step E.2 — Edit form (title, summary, optional logo, theme color selections)  [Implemented] [Tested]
 Added `/admin/forms/[slug]/edit` to update form metadata and upload/replace an optional logo in `rms-logos`.
-#### Step E.3 — Publish/unpublish or active toggle (controls public availability)  [Implemented] [Not Tested]
+#### Step E.3 — Publish/unpublish or active toggle (controls public availability)  [Implemented] [Tested]
 Implemented `is_active` toggle in edit UI; public form route only renders active forms.
-#### Step E.4 — Record admin event logs for form actions (`form.created`, `form.updated`, `form.published`)  [Implemented] [Not Tested]
-Logs are written for create/update, and publishing is logged when `is_active` transitions to true.
+#### Step E.4 — Record admin event logs for form actions (`form.created`, `form.updated`, `form.published`, `form.unpublished`)  [Implemented] [Tested]
+Logs are written for create/update, publishing is logged when `is_active` transitions to true, and unpublishing is logged when `is_active` transitions to false.
 #### Step E.5 — Hard delete form (only when safe; no submissions)  [Not Implemented] [Not Tested]
 Allow hard deletion only if the form has zero submissions. If submissions exist, block deletion and instruct the admin to delete submissions first (or export them), then delete the form. This aligns with the DB constraint (`applications.form_id` uses `on delete restrict`), which prevents deleting a form that has related applications.
 #### Step E.6 — Logo removal + safe replacement cleanup  [Implemented] [Tested]

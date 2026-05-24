@@ -5,6 +5,8 @@ import { ApplicationForm } from "@/app/forms/[slug]/ui/application-form";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getEnv } from "@/lib/env";
 
+export const dynamic = "force-dynamic";
+
 const headerBgByColor: Record<string, string> = {
   zinc: "bg-zinc-900",
   blue: "bg-blue-600",

@@ -50,7 +50,12 @@ export async function updateForm(slug: string, formData: FormData) {
     redirect("/admin/forms?error=Form%20not%20found");
   }
 
-  const parsed = formUpdateSchema.safeParse(Object.fromEntries(formData));
+  // Unchecked checkboxes are not submitted. Always include `is_active` so
+  // toggling off works and the DB reflects the current checkbox state.
+  const parsed = formUpdateSchema.safeParse({
+    ...Object.fromEntries(formData),
+    is_active: formData.has("is_active"),
+  });
   if (!parsed.success) {
     debugWarn("updateForm", "validation_failed", {
       slug,
@@ -128,6 +133,16 @@ export async function updateForm(slug: string, formData: FormData) {
     await logAdminEvent({
       actorUserId: admin.user.id,
       action: AdminLogAction.FormPublished,
+      entityType: "form",
+      entityId: updated.id,
+      details: { slug: updated.slug },
+    });
+  }
+
+  if (existing.is_active && !updated.is_active) {
+    await logAdminEvent({
+      actorUserId: admin.user.id,
+      action: AdminLogAction.FormUnpublished,
       entityType: "form",
       entityId: updated.id,
       details: { slug: updated.slug },

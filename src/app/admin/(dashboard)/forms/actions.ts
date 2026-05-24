@@ -27,7 +27,11 @@ export async function createForm(formData: FormData) {
   const admin = await requireAdmin();
   const supabase = await createSupabaseServerClient();
 
-  const parsed = formCreateSchema.safeParse(Object.fromEntries(formData));
+  const parsed = formCreateSchema.safeParse({
+    ...Object.fromEntries(formData),
+    // Unchecked checkboxes are not submitted. Use presence as boolean.
+    is_active: formData.has("is_active"),
+  });
   if (!parsed.success) {
     redirect(`/admin/forms?error=${encodeURIComponent("Invalid form data.")}`);
   }
