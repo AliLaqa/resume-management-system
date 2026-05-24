@@ -1,0 +1,28 @@
+PS G:\GithubProjects\resume-management-system> npm run dev
+
+> resume-management-system@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.147:3000
+- Environments: .env.local
+✓ Ready in 657ms
+⚠ Slow filesystem detected. The benchmark took 715ms. If G:\GithubProjects\resume-management-system\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+- Experiments (use with caution):
+  · serverActions
+
+⨯ ./src/app/admin/debug
+You cannot have two parallel pages that resolve to the same path. Please check /admin/(dashboard)/debug and /admin/debug.
+
+ GET / 500 in 404ms (next.js: 203ms, application-code: 201ms)
+[browser] Uncaught Error: ./src/app/admin/debug
+You cannot have two parallel pages that resolve to the same path. Please check /admin/(dashboard)/debug and /admin/debug.
+
+[browser] ./src/app/admin/debug
+You cannot have two parallel pages that resolve to the same path. Please check /admin/(dashboard)/debug and /admin/debug. 
+[browser] ./src/app/admin/debug
+You cannot have two parallel pages that resolve to the same path. Please check /admin/(dashboard)/debug and /admin/debug. 
+[browser] ./src/app/admin/debug
+You cannot have two parallel pages that resolve to the same path. Please check /admin/(dashboard)/debug and /admin/debug. 
