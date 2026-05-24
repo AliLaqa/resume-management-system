@@ -70,13 +70,23 @@ export async function updateForm(slug: string, formData: FormData) {
     logo instanceof File && logo.size > 0 ? (logo as File) : null;
   if (logoFile) {
     const service = createSupabaseServiceRoleClient();
+    if (existing.logo_object_path) {
+      const removal = await service.storage.from("rms-logos").remove([existing.logo_object_path]);
+      if (removal.error) {
+        redirect(
+          `/admin/forms/${encodeURIComponent(slug)}/edit?error=${encodeURIComponent(
+            `Failed to remove the previous logo: ${removal.error.message}`,
+          )}`,
+        );
+      }
+    }
     const safeName = sanitizeFilename(logoFile.name);
     const objectPath = `forms/${existing.id}/${safeName}`;
     const bytes = Buffer.from(await logoFile.arrayBuffer());
 
     const upload = await service.storage.from("rms-logos").upload(objectPath, bytes, {
       contentType: logoFile.type || undefined,
-      upsert: true,
+      upsert: false,
     });
     if (upload.error) {
       redirect(
@@ -125,4 +135,54 @@ export async function updateForm(slug: string, formData: FormData) {
   }
 
   redirect(`/admin/forms/${encodeURIComponent(updated.slug)}`);
+}
+
+export async function removeFormLogo(slug: string) {
+  const admin = await requireAdmin();
+  const supabase = await createSupabaseServerClient();
+
+  const { data: existing, error: existingError } = await supabase
+    .from("forms")
+    .select("id,slug,logo_object_path")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (existingError || !existing) {
+    redirect("/admin/forms?error=Form%20not%20found");
+  }
+
+  if (existing.logo_object_path) {
+    const service = createSupabaseServiceRoleClient();
+    const removal = await service.storage.from("rms-logos").remove([existing.logo_object_path]);
+    if (removal.error) {
+      redirect(
+        `/admin/forms/${encodeURIComponent(slug)}/edit?error=${encodeURIComponent(
+          `Failed to remove logo: ${removal.error.message}`,
+        )}`,
+      );
+    }
+  }
+
+  const { data: updated, error: updateError } = await supabase
+    .from("forms")
+    .update({ logo_object_path: null })
+    .eq("id", existing.id)
+    .select("id,slug")
+    .single();
+
+  if (updateError || !updated) {
+    redirect(
+      `/admin/forms/${encodeURIComponent(slug)}/edit?error=${encodeURIComponent(updateError?.message ?? "Update failed")}`,
+    );
+  }
+
+  await logAdminEvent({
+    actorUserId: admin.user.id,
+    action: AdminLogAction.FormUpdated,
+    entityType: "form",
+    entityId: updated.id,
+    details: { slug: updated.slug, logoRemoved: true },
+  });
+
+  redirect(`/admin/forms/${encodeURIComponent(updated.slug)}/edit`);
 }

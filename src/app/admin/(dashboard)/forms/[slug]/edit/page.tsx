@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { updateForm } from "@/app/admin/(dashboard)/forms/[slug]/edit/actions";
+import { removeFormLogo, updateForm } from "@/app/admin/(dashboard)/forms/[slug]/edit/actions";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getEnv } from "@/lib/env";
 
@@ -40,6 +40,7 @@ export default async function FormEditPage({
     : null;
 
   const action = updateForm.bind(null, form.slug);
+  const removeLogoAction = removeFormLogo.bind(null, form.slug);
 
   return (
     <div className="flex flex-col gap-6">
@@ -128,13 +129,25 @@ export default async function FormEditPage({
             </label>
             {logoUrl ? (
               <div className="flex items-center gap-3">
-                <Image
-                  src={logoUrl}
-                  alt="Current logo"
-                  width={48}
-                  height={48}
-                  className="h-12 w-12 rounded-md border border-zinc-200 object-contain"
-                />
+                <div className="relative">
+                  <Image
+                    src={logoUrl}
+                    alt="Current logo"
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 rounded-md border border-zinc-200 object-contain"
+                  />
+                  <button
+                    type="submit"
+                    formAction={removeLogoAction}
+                    formNoValidate
+                    aria-label="Remove logo"
+                    className="absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-zinc-200 bg-white text-sm text-zinc-700 shadow-sm hover:bg-zinc-50"
+                    title="Remove logo"
+                  >
+                    ×
+                  </button>
+                </div>
                 <span className="text-xs text-zinc-500">
                   Uploading a new logo will replace the current one.
                 </span>

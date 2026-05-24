@@ -122,7 +122,7 @@ Implemented `is_active` toggle in edit UI; public form route only renders active
 Logs are written for create/update, and publishing is logged when `is_active` transitions to true.
 #### Step E.5 — Hard delete form (only when safe; no submissions)  [Not Implemented] [Not Tested]
 Allow hard deletion only if the form has zero submissions. If submissions exist, block deletion and instruct the admin to delete submissions first (or export them), then delete the form. This aligns with the DB constraint (`applications.form_id` uses `on delete restrict`), which prevents deleting a form that has related applications.
-#### Step E.6 — Logo removal + safe replacement cleanup  [Not Implemented] [Not Tested]
+#### Step E.6 — Logo removal + safe replacement cleanup  [Implemented] [Tested]
 Add a small “remove logo” (cross icon) action on the edit form screen that deletes the currently stored logo object (no confirmation prompt) and clears the form’s logo fields. When uploading a new logo for a form that already has one, delete the previous stored logo object first, then upload/save the new logo (avoid orphaned files).
 
 ### Step F — Submission review (admin)  [Implemented] [Not Tested]

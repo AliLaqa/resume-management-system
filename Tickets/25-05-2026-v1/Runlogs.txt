@@ -1,0 +1,62 @@
+PS G:\GithubProjects\resume-management-system> npm run dev
+
+> resume-management-system@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.147:3000
+- Environments: .env.local
+✓ Ready in 4.0s
+⚠ Slow filesystem detected. The benchmark took 501ms. If G:\GithubProjects\resume-management-system\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+○ Compiling middleware ...
+- Experiments (use with caution):
+  · serverActions
+
+ GET / 200 in 888ms (next.js: 540ms, application-code: 348ms)
+ GET /admin 200 in 6.3s (next.js: 176ms, application-code: 6.1s)
+ GET /admin/forms 200 in 8.5s (next.js: 40ms, application-code: 8.5s)
+ GET /admin/forms/my-job 200 in 7.8s (next.js: 1248ms, application-code: 6.5s)
+ GET /admin/forms/my-job/edit 200 in 2.9s (next.js: 928ms, application-code: 1980ms)
+[browser] In HTML, <form> cannot be a descendant of <form>.
+This will cause a hydration error.
+
+  ...
+    <RenderFromTemplateContext>
+      <ScrollAndMaybeFocusHandler cacheNode={{rsc:<Fragment>, ...}}>
+        <InnerScrollAndFocusHandlerOld focusAndScrollRef={{...}} cacheNode={{rsc:<Fragment>, ...}}>
+          <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+            <LoadingBoundary name="edit/" loading={null}>
+              <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+                <RedirectBoundary>
+                  <RedirectErrorBoundary router={{...}}>
+                    <InnerLayoutRouter url="/admin/for..." tree={[...]} params={{slug:"my-job"}} ...>
+                      <SegmentViewNode type="page" pagePath="admin/(das...">
+                        <SegmentTrieNode>
+                        <FormEditPage>
+                          <div className="flex flex-...">
+                            <div>
+                            <div className="rounded-xl...">
+>                             <form action={function bound updateForm} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                <div>
+                                <div>
+                                <div>
+                                <div className="flex flex-...">
+                                  <label>
+                                  <div className="flex items...">
+                                    <div className="relative">
+                                      <img>
+>                                     <form action={function bound removeFormLogo}>
+                                    ...
+                                  ...
+                                ...
+                      ...
+                    ...
+          ...
+ 
+[browser] <form> cannot contain a nested <form>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you're trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().
+    at <unknown> (<anonymous>:1:7)
