@@ -112,7 +112,7 @@ Dashboard KPIs render server-side on page load and include a manual Refresh butt
 
 ### Step E — Form management (admin)  [Implemented] [Not Tested]
 Implemented form creation, editing, theming, and active toggling in the admin dashboard.
-#### Step E.1 — Create form (required slug; normalize slug; enforce uniqueness)  [Implemented] [Not Tested]
+#### Step E.1 — Create form (required slug; normalize slug; enforce uniqueness)  [Implemented] [Tested]
 Added `/admin/forms` create form UI and server action that normalizes slug and inserts into `forms`.
 #### Step E.2 — Edit form (title, summary, optional logo, theme color selections)  [Implemented] [Not Tested]
 Added `/admin/forms/[slug]/edit` to update form metadata and upload/replace an optional logo in `rms-logos`.
@@ -120,6 +120,8 @@ Added `/admin/forms/[slug]/edit` to update form metadata and upload/replace an o
 Implemented `is_active` toggle in edit UI; public form route only renders active forms.
 #### Step E.4 — Record admin event logs for form actions (`form.created`, `form.updated`, `form.published`)  [Implemented] [Not Tested]
 Logs are written for create/update, and publishing is logged when `is_active` transitions to true.
+#### Step E.5 — Hard delete form (only when safe; no submissions)  [Implemented] [Not Tested]
+Allow hard deletion only if the form has zero submissions. If submissions exist, block deletion and instruct the admin to delete submissions first (or export them), then delete the form. This aligns with the DB constraint (`applications.form_id` uses `on delete restrict`), which prevents deleting a form that has related applications.
 
 ### Step F — Submission review (admin)  [Implemented] [Not Tested]
 Implemented per-form submissions viewing, application detail pages, and CV downloads via a logging redirect route.

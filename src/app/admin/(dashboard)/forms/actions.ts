@@ -3,10 +3,25 @@
 import { redirect } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth/admin";
+import { debugWarn } from "@/lib/logging/server-debug";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { formCreateSchema } from "@/lib/validation/form";
 import { AdminLogAction } from "@/lib/logging/actions";
 import { logAdminEvent } from "@/lib/logging/log-admin-event";
+
+function toUserCreateFormError(error: { code?: string | null; message?: string | null }) {
+  // Postgres unique violation: duplicate slug
+  if (error.code === "23505") {
+    return "That slug is already in use. Please choose a different slug.";
+  }
+
+  const msg = (error.message ?? "").toLowerCase();
+  if (msg.includes("forms_slug_unique") || (msg.includes("duplicate") && msg.includes("slug"))) {
+    return "That slug is already in use. Please choose a different slug.";
+  }
+
+  return "Could not create the form. Please try again.";
+}
 
 export async function createForm(formData: FormData) {
   const admin = await requireAdmin();
@@ -30,8 +45,16 @@ export async function createForm(formData: FormData) {
     .single();
 
   if (error || !inserted) {
+    if (error) {
+      debugWarn("createForm", "insert_failed", {
+        code: (error as unknown as { code?: string }).code ?? null,
+        message: error.message,
+      });
+    }
     redirect(
-      `/admin/forms?error=${encodeURIComponent(error?.message ?? "Create failed.")}`,
+      `/admin/forms?error=${encodeURIComponent(
+        toUserCreateFormError(error ?? {}),
+      )}`,
     );
   }
 
