@@ -136,15 +136,15 @@ Added `/admin/cv?applicationId=...` to log the download event and redirect to th
 #### Step F.4 — “Viewed” logging (`application.viewed`) with minimal noise control  [Implemented] [Tested]
 Application detail view writes an `application.viewed` log on page load (1 log per view request).
 
-### Step G — Export (admin, per form, selectable rows)  [Implemented] [Not Tested]
+### Step G — Export (admin, per form, selectable rows)  [Implemented] [Tested]
 Implemented per-form exports for selected submissions as CSV or XLSX with the CV public URL column included.
-#### Step G.1 — UI selection model (select rows, select all, export selected)  [Implemented] [Not Tested]
+#### Step G.1 — UI selection model (select rows, select all, export selected)  [Implemented] [Tested]
 Added row selection (checkboxes + select all) on the submissions table for export and deletion actions.
-#### Step G.2 — CSV export implementation (server-side generation) including CV URL  [Implemented] [Not Tested]
+#### Step G.2 — CSV export implementation (server-side generation) including CV URL  [Implemented] [Tested]
 Added POST `/admin/forms/[slug]/export` to generate CSV with columns matching the client spreadsheet (including CV URL).
-#### Step G.3 — XLSX export implementation (server-side generation) including CV URL  [Implemented] [Not Tested]
+#### Step G.3 — XLSX export implementation (server-side generation) including CV URL  [Implemented] [Tested]
 Added XLSX export via `exceljs` using the same column set and formatting (header row bold + frozen).
-#### Step G.4 — Log exports (`export.csv`, `export.xlsx`) with form id + count exported  [Implemented] [Not Tested]
+#### Step G.4 — Log exports (`export.csv`, `export.xlsx`) with form id + count exported  [Implemented] [Tested]
 Each export writes an event log with form id/slug and the number of rows exported.
 
 ### Step H — Admin management (owner-only add/remove; cap 5)  [Implemented] [Not Tested]
