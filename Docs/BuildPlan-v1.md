@@ -60,20 +60,20 @@ Only the owner can delete application submissions, and deletion also removes the
 
 ### Step A — Requirements, conventions, and project wiring  [Implemented] [Not Tested]
 Documented v1 requirements and conventions to keep implementation consistent and DRY.
-#### Step A.1 — Confirm fixed field schema + labels  [Implemented] [Not Tested]
+#### Step A.1 — Confirm fixed field schema + labels  [Implemented] [Tested]
 Locked the fixed application fields to match the client’s spreadsheet screenshot.
-#### Step A.2 — Decide naming conventions (tables, actions, slugs, paths)  [Implemented] [Not Tested]
+#### Step A.2 — Decide naming conventions (tables, actions, slugs, paths)  [Implemented] [Tested]
 Standardized naming for tables, admin event actions, slugs, and Storage object paths.
-#### Step A.3 — Define public URLs and admin URLs routing map  [Implemented] [Not Tested]
+#### Step A.3 — Define public URLs and admin URLs routing map  [Implemented] [Tested]
 Defined a stable routing map for public forms by slug and protected admin dashboard pages.
 #### Step A.4 — Define “owner” rules and admin cap rules  [Implemented] [Not Tested]
 Defined owner-only capabilities (admin management + deletion) and the 5-admin cap rule.
 
 ### Step B — Supabase setup (DB, Storage, Auth)  [Implemented] [Not Tested]
 Created Supabase SQL for v1 tables, RLS policies, triggers, and bucket setup (to be applied in the Supabase SQL Editor).
-#### Step B.1 — Create tables: `forms`, `applications`, `admins`, `admin_event_log`  [Implemented] [Not Tested]
+#### Step B.1 — Create tables: `forms`, `applications`, `admins`, `admin_event_log`  [Implemented] [Tested]
 Implemented the initial v1 database schema in `Docs/supabase/schema-v1.sql`.
-#### Step B.2 — Add indexes + constraints (unique slug, FK `applications.form_id`, admin cap enforcement)  [Implemented] [Not Tested]
+#### Step B.2 — Add indexes + constraints (unique slug, FK `applications.form_id`, admin cap enforcement)  [Implemented] [Tested]
 Added uniqueness, foreign keys, indexes, and DB-side safeguards for the admin cap/owner rules.
 #### Step B.3 — Enable RLS and add policies for  [Implemented] [Not Tested]
 Enabled RLS and defined policies to allow public submission while protecting admin-only data access.
@@ -81,7 +81,7 @@ Enabled RLS and defined policies to allow public submission while protecting adm
 - `applications`: public insert for submissions + admin read; owner-only delete
 - `admins`: admin read; owner-only add/remove; protect owner from deletion
 - `admin_event_log`: admin read; server-only insert
-#### Step B.4 — Create public Storage bucket for CVs + access rules  [Implemented] [Not Tested]
+#### Step B.4 — Create public Storage bucket for CVs + access rules  [Implemented] [Tested]
 Created public buckets for CVs and form logos (`rms-cv`, `rms-logos`) in `Docs/supabase/schema-v1.sql`.
 #### Step B.5 — Manually provision owner admin (Supabase Auth user + SQL insert into `admins` as owner)  [Implemented] [Tested]
 Added `Docs/supabase/seed-v1.sql` to insert the owner into `admins` after creating the Auth user in Supabase.
