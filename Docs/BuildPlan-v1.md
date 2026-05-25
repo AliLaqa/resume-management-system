@@ -160,13 +160,13 @@ Owner can remove non-owner admins via dashboard; owner removal is blocked by DB 
 #### Step H.5 — Log admin changes (`admin.added`, `admin.removed`)  [Implemented] [Not Tested]
 Admin add/remove actions write `admin.added` and `admin.removed` events in `admin_event_log`.
 
-### Step I — Deletion (owner-only)  [Implemented] [Not Tested]
+### Step I — Deletion (owner-only)  [Implemented] [Tested]
 Implemented owner-only deletion of submissions with best-effort CV file deletion from Supabase Storage.
-#### Step I.1 — Owner delete applications (single + bulk selection)  [Implemented] [Not Tested]
+#### Step I.1 — Owner delete applications (single + bulk selection)  [Implemented] [Tested]
 Owner can select rows in `/admin/forms/[slug]` and delete them via POST `/admin/forms/[slug]/delete`.
-#### Step I.2 — On delete, remove CV object from Storage (best-effort + transactional consistency)  [Implemented] [Not Tested]
+#### Step I.2 — On delete, remove CV object from Storage (best-effort + transactional consistency)  [Implemented] [Tested]
 Delete route removes CV objects from `rms-cv` using the service role key before deleting DB rows.
-#### Step I.3 — Log deletions (`application.deleted`, optionally `cv.deleted`)  [Implemented] [Not Tested]
+#### Step I.3 — Log deletions (`application.deleted`, optionally `cv.deleted`)  [Implemented] [Tested]
 Deletion writes an `application.deleted` log with form metadata and count of deleted submissions.
 
 ### Step J — Testing and release readiness (v1)  [Implemented] [Not Tested]

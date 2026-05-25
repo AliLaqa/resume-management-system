@@ -47,6 +47,7 @@ export function SubmissionsTable(props: {
   const [refreshing, startRefresh] = useTransition();
   const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [busy, setBusy] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -106,6 +107,7 @@ export function SubmissionsTable(props: {
     );
     if (!ok) return;
 
+    setDeleting(true);
     setBusy(true);
     try {
       const res = await fetch(`/admin/forms/${encodeURIComponent(props.formSlug)}/delete`, {
@@ -123,6 +125,7 @@ export function SubmissionsTable(props: {
       startRefresh(() => router.refresh());
     } finally {
       setBusy(false);
+      setDeleting(false);
     }
   }
 
@@ -168,7 +171,17 @@ export function SubmissionsTable(props: {
               onClick={deleteSelected}
               className="h-9 rounded-md border border-rose-200 bg-rose-50 px-3 text-sm text-rose-800 hover:bg-rose-100 disabled:opacity-50"
             >
-              Delete selected
+              {deleting ? (
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="h-4 w-4 animate-spin rounded-full border-2 border-rose-300 border-t-rose-800"
+                  />
+                  Deleting…
+                </span>
+              ) : (
+                "Delete selected"
+              )}
             </button>
           ) : null}
         </div>
