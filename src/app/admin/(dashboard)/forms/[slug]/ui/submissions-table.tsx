@@ -31,6 +31,12 @@ async function downloadFromResponse(res: Response, filenameFallback: string) {
   URL.revokeObjectURL(url);
 }
 
+function formatSubmittedAt(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toISOString().replace("T", " ").replace(".000Z", " UTC");
+}
+
 export function SubmissionsTable(props: {
   formSlug: string;
   isOwner: boolean;
@@ -205,7 +211,7 @@ export function SubmissionsTable(props: {
                   />
                 </td>
                 <td className="px-6 py-3 whitespace-nowrap text-xs text-zinc-600">
-                  {new Date(r.created_at).toLocaleString()}
+                  {formatSubmittedAt(r.created_at)}
                 </td>
                 <td className="px-6 py-3">{r.name}</td>
                 <td className="px-6 py-3">{r.cnic}</td>

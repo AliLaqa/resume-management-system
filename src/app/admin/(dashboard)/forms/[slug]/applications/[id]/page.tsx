@@ -6,6 +6,8 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { AdminLogAction } from "@/lib/logging/actions";
 import { logAdminEvent } from "@/lib/logging/log-admin-event";
 
+export const dynamic = "force-dynamic";
+
 export default async function ApplicationDetailPage({
   params,
 }: {

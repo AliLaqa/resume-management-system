@@ -88,15 +88,15 @@ Added `Docs/supabase/seed-v1.sql` to insert the owner into `admins` after creati
 #### Step B.6 — Configure Supabase Auth password reset redirect URLs (local + Vercel)  [Implemented] [Not Tested]
 Documented the required Supabase Auth settings in `Docs/supabase/config-v1.md`.
 
-### Step C — Public form experience (applicants)  [Implemented] [Not Tested]
+### Step C — Public form experience (applicants)  [Implemented] [Tested]
 Implemented the public form page and submission flow using a Server Action and Supabase (service-role) writes.
-#### Step C.1 — Public form page by slug (read form config, show title/summary/logo/theme)  [Implemented] [Not Tested]
+#### Step C.1 — Public form page by slug (read form config, show title/summary/logo/theme)  [Implemented] [Tested]
 Added `src/app/forms/[slug]/page.tsx` to render an active form using saved config (title/summary/logo/header color).
-#### Step C.2 — Form submit: validate required fields minimally + create `applications` row  [Implemented] [Not Tested]
+#### Step C.2 — Form submit: validate required fields minimally + create `applications` row  [Implemented] [Tested]
 Implemented `submitApplication` Server Action with zod validation and inserts into `applications`.
-#### Step C.3 — CV upload: store under `applications/<application_id>/<original_filename>` and save `cv_*` metadata + public URL  [Implemented] [Not Tested]
+#### Step C.3 — CV upload: store under `applications/<application_id>/<original_filename>` and save `cv_*` metadata + public URL  [Implemented] [Tested]
 Uploads CV to bucket `rms-cv` under `applications/<uuid>/<original_filename>` and stores the public URL + file metadata.
-#### Step C.4 — Success/confirmation screen (no applicant account)  [Implemented] [Not Tested]
+#### Step C.4 — Success/confirmation screen (no applicant account)  [Implemented] [Tested]
 Shows an inline success message and disables re-submission after a successful submit (no applicant accounts).
 
 ### Step D — Admin authentication and dashboard shell  [Implemented] [Not Tested]
@@ -125,15 +125,15 @@ Allow hard deletion only if the form has zero submissions. If submissions exist,
 #### Step E.6 — Logo removal + safe replacement cleanup  [Implemented] [Tested]
 Add a small “remove logo” (cross icon) action on the edit form screen that deletes the currently stored logo object (no confirmation prompt) and clears the form’s logo fields. When uploading a new logo for a form that already has one, delete the previous stored logo object first, then upload/save the new logo (avoid orphaned files).
 
-### Step F — Submission review (admin)  [Implemented] [Not Tested]
+### Step F — Submission review (admin)  [Implemented] [Tested]
 Implemented per-form submissions viewing, application detail pages, and CV downloads via a logging redirect route.
-#### Step F.1 — Submissions list per form (table view with all fields + CV URL)  [Implemented] [Not Tested]
+#### Step F.1 — Submissions list per form (table view with all fields + CV URL)  [Implemented] [Tested]
 Added `/admin/forms/[slug]` with a selectable submissions table showing all fixed fields and CV attach link.
-#### Step F.2 — Submission detail view (single application)  [Implemented] [Not Tested]
+#### Step F.2 — Submission detail view (single application)  [Implemented] [Tested]
 Added `/admin/forms/[slug]/applications/[id]` for a clean detail view of one application.
-#### Step F.3 — CV download action (use stored public URL) + log (`cv.downloaded`)  [Implemented] [Not Tested]
+#### Step F.3 — CV download action (use stored public URL) + log (`cv.downloaded`)  [Implemented] [Tested]
 Added `/admin/cv?applicationId=...` to log the download event and redirect to the stored public CV URL.
-#### Step F.4 — “Viewed” logging (`application.viewed`) with minimal noise control  [Implemented] [Not Tested]
+#### Step F.4 — “Viewed” logging (`application.viewed`) with minimal noise control  [Implemented] [Tested]
 Application detail view writes an `application.viewed` log on page load (1 log per view request).
 
 ### Step G — Export (admin, per form, selectable rows)  [Implemented] [Not Tested]

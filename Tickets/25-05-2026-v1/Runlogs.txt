@@ -7,56 +7,68 @@ PS G:\GithubProjects\resume-management-system> npm run dev
 - Local:         http://localhost:3000
 - Network:       http://192.168.100.147:3000
 - Environments: .env.local
-✓ Ready in 4.0s
-⚠ Slow filesystem detected. The benchmark took 501ms. If G:\GithubProjects\resume-management-system\.next/dev is a network drive, consider moving it to a local folder.
+✓ Ready in 918ms
+⚠ Slow filesystem detected. The benchmark took 215ms. If G:\GithubProjects\resume-management-system\.next/dev is a network drive, consider moving it to a local folder.
 See more: https://nextjs.org/docs/app/guides/local-development
-○ Compiling middleware ...
 - Experiments (use with caution):
   · serverActions
 
- GET / 200 in 888ms (next.js: 540ms, application-code: 348ms)
- GET /admin 200 in 6.3s (next.js: 176ms, application-code: 6.1s)
- GET /admin/forms 200 in 8.5s (next.js: 40ms, application-code: 8.5s)
- GET /admin/forms/my-job 200 in 7.8s (next.js: 1248ms, application-code: 6.5s)
- GET /admin/forms/my-job/edit 200 in 2.9s (next.js: 928ms, application-code: 1980ms)
-[browser] In HTML, <form> cannot be a descendant of <form>.
-This will cause a hydration error.
+ GET /forms/my-job 200 in 2.7s (next.js: 1606ms, application-code: 1117ms)
+ GET /forms/my-job 200 in 3.1s (next.js: 1608ms, application-code: 1479ms)
+ GET /admin/forms/my-job 200 in 4.5s (next.js: 1339ms, application-code: 3.1s)
+ POST /forms/my-job 200 in 3.1s (next.js: 16ms, application-code: 3.1s)
+  └─ ƒ submitApplication("my-job", undefined, {}) in 3075ms src/app/forms/[slug]/actions.ts
+ GET /admin/forms/my-job 200 in 2.5s (next.js: 15ms, application-code: 2.5s)
+[browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
 
   ...
-    <RenderFromTemplateContext>
-      <ScrollAndMaybeFocusHandler cacheNode={{rsc:<Fragment>, ...}}>
-        <InnerScrollAndFocusHandlerOld focusAndScrollRef={{...}} cacheNode={{rsc:<Fragment>, ...}}>
-          <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
-            <LoadingBoundary name="edit/" loading={null}>
-              <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
-                <RedirectBoundary>
-                  <RedirectErrorBoundary router={{...}}>
-                    <InnerLayoutRouter url="/admin/for..." tree={[...]} params={{slug:"my-job"}} ...>
-                      <SegmentViewNode type="page" pagePath="admin/(das...">
-                        <SegmentTrieNode>
-                        <FormEditPage>
-                          <div className="flex flex-...">
-                            <div>
-                            <div className="rounded-xl...">
->                             <form action={function bound updateForm} className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                <div>
-                                <div>
-                                <div>
-                                <div>
-                                <div className="flex flex-...">
-                                  <label>
-                                  <div className="flex items...">
-                                    <div className="relative">
-                                      <img>
->                                     <form action={function bound removeFormLogo}>
-                                    ...
-                                  ...
-                                ...
-                      ...
-                    ...
+    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/admin/for..." tree={[...]} params={{slug:"my-job"}} cacheNode={{rsc:{...}, ...}} ...>
+            <SegmentViewNode type="page" pagePath="admin/(das...">
+              <SegmentTrieNode>
+              <FormDetailPage>
+                <div className="flex flex-...">
+                  <div>
+                  <SubmissionsTable formSlug="my-job" isOwner={true} applications={[...]}>
+                    <div className="overflow-h...">
+                      <div>
+                      <div className="overflow-x...">
+                        <table className="w-full tex...">
+                          <thead>
+                          <tbody>
+                            <tr className="border-t b...">
+                              <td>
+                              <td className="px-6 py-3 whitespace-nowrap text-xs text-zinc-600">
++                               5/25/2026, 4:38:19 AM
+-                               25/05/2026, 4:38:19 am
+                              ...
+            ...
           ...
- 
-[browser] <form> cannot contain a nested <form>.
-See this log for the ancestor stack trace. 
-[browser] Uncaught Error: A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you're trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().
-    at <unknown> (<anonymous>:1:7)
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at td (<anonymous>)
+    at <unknown> (src/app/admin/(dashboard)/forms/[slug]/ui/submissions-table.tsx:207:17)
+    at Array.map (<anonymous>)
+    at SubmissionsTable (src/app/admin/(dashboard)/forms/[slug]/ui/submissions-table.tsx:195:33)
+    at FormDetailPage (src\app\admin\(dashboard)\forms\[slug]\page.tsx:63:7)
+  205 |                   />
+  206 |                 </td>
+> 207 |                 <td className="px-6 py-3 whitespace-nowrap text-xs text-zinc-600">
+      |                 ^
+  208 |                   {new Date(r.created_at).toLocaleString()}
+  209 |                 </td>
+  210 |                 <td className="px-6 py-3">{r.name}</td>
+
+
