@@ -99,7 +99,7 @@ Uploads CV to bucket `rms-cv` under `applications/<uuid>/<original_filename>` an
 #### Step C.4 — Success/confirmation screen (no applicant account)  [Implemented] [Tested]
 Shows an inline success message and disables re-submission after a successful submit (no applicant accounts).
 
-### Step D — Admin authentication and dashboard shell  [Implemented] [Not Tested]
+### Step D — Admin authentication and dashboard shell  [Implemented] [Tested]
 Implemented admin auth pages and a protected dashboard shell that gates access via Supabase Auth + `admins` allowlist.
 #### Step D.1 — Admin login (email + password) + “forgot password” flow  [Implemented] [Tested]
 Added `/admin/login`, `/admin/forgot-password`, and `/admin/reset-password` flows using Supabase Auth.

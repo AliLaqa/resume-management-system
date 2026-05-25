@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMemo, useState, useTransition } from "react";
 
 type ApplicationRow = {
   id: string;
@@ -42,6 +43,8 @@ export function SubmissionsTable(props: {
   isOwner: boolean;
   applications: ApplicationRow[];
 }) {
+  const router = useRouter();
+  const [refreshing, startRefresh] = useTransition();
   const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -116,7 +119,8 @@ export function SubmissionsTable(props: {
         return;
       }
       setMessage(`Deleted ${selectedIds.length} submission(s).`);
-      window.location.reload();
+      setSelected({});
+      startRefresh(() => router.refresh());
     } finally {
       setBusy(false);
     }
@@ -135,7 +139,15 @@ export function SubmissionsTable(props: {
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            disabled={busy}
+            disabled={busy || refreshing}
+            onClick={() => startRefresh(() => router.refresh())}
+            className="h-9 rounded-md border border-zinc-200 px-3 text-sm text-zinc-800 hover:bg-zinc-50 disabled:opacity-50"
+          >
+            Refresh
+          </button>
+          <button
+            type="button"
+            disabled={busy || refreshing}
             onClick={() => exportSelected("csv")}
             className="h-9 rounded-md border border-zinc-200 px-3 text-sm text-zinc-800 hover:bg-zinc-50 disabled:opacity-50"
           >
@@ -143,7 +155,7 @@ export function SubmissionsTable(props: {
           </button>
           <button
             type="button"
-            disabled={busy}
+            disabled={busy || refreshing}
             onClick={() => exportSelected("xlsx")}
             className="h-9 rounded-md border border-zinc-200 px-3 text-sm text-zinc-800 hover:bg-zinc-50 disabled:opacity-50"
           >
@@ -152,7 +164,7 @@ export function SubmissionsTable(props: {
           {props.isOwner ? (
             <button
               type="button"
-              disabled={busy}
+              disabled={busy || refreshing}
               onClick={deleteSelected}
               className="h-9 rounded-md border border-rose-200 bg-rose-50 px-3 text-sm text-rose-800 hover:bg-rose-100 disabled:opacity-50"
             >
